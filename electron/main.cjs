@@ -8,6 +8,7 @@ const {
 } = require("electron");
 
 const path = require("path");
+const { processFolder } = require("./imageProcessor.cjs");
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -61,6 +62,23 @@ ipcMain.handle("select-output-folder", async () => {
   }
 
   return result.filePaths[0];
+});
+
+ipcMain.handle("process-images", async (event, options) => {
+  try {
+    const result = await processFolder(options);
+    return {
+      success: true,
+      ...result,
+    };
+  } catch (error) {
+    console.error(error);
+
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
 });
 
 app.whenReady().then(() => {

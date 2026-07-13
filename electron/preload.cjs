@@ -8,4 +8,7 @@ contextBridge.exposeInMainWorld("electron", {
 
   selectOutputFolder: () =>
     ipcRenderer.invoke("select-output-folder"),
+
+  processImages: (options) =>
+    ipcRenderer.invoke("process-images", options),
 });

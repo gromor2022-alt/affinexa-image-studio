@@ -3,15 +3,13 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  
-"scripts": {
+  "scripts": {
     "dev": "vite",
     "electron": "electron electron/main.cjs",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
-  
   "dependencies": {
     "@tailwindcss/vite": "^4.3.2",
     "concurrently": "^10.0.3",
