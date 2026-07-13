@@ -5,4 +5,7 @@ contextBridge.exposeInMainWorld("electron", {
 
   selectInputFolder: () =>
     ipcRenderer.invoke("select-input-folder"),
+
+  selectOutputFolder: () =>
+    ipcRenderer.invoke("select-output-folder"),
 });

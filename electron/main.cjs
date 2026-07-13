@@ -32,6 +32,17 @@ console.log("Preload path:", path.join(__dirname, "preload.cjs"));
 }
 console.log("Registering IPC handler...");
 ipcMain.handle("select-input-folder", async () => {
+ipcMain.handle("select-output-folder", async () => {
+  const result = await dialog.showOpenDialog({
+    properties: ["openDirectory"],
+  });
+
+  if (result.canceled) {
+    return null;
+  }
+
+  return result.filePaths[0];
+});
   const result = await dialog.showOpenDialog({
     properties: ["openDirectory"],
   });
