@@ -1,4 +1,10 @@
-const { app, BrowserWindow } = require("electron");
+console.log("Main process started");
+const {
+  app,
+  BrowserWindow,
+  dialog,
+  ipcMain,
+} = require("electron");
 const path = require("path");
 
 function createWindow() {
@@ -15,14 +21,27 @@ function createWindow() {
     backgroundColor: "#0F172A",
 
     webPreferences: {
-      nodeIntegration: false,
-      contextIsolation: true,
-    },
+  preload: path.join(__dirname, "preload.cjs"),
+  nodeIntegration: false,
+  contextIsolation: true,
+},
   });
 
   win.loadURL("http://localhost:5173");
+console.log("Preload path:", path.join(__dirname, "preload.cjs"));
 }
+console.log("Registering IPC handler...");
+ipcMain.handle("select-input-folder", async () => {
+  const result = await dialog.showOpenDialog({
+    properties: ["openDirectory"],
+  });
 
+  if (result.canceled) {
+    return null;
+  }
+
+  return result.filePaths[0];
+});
 app.whenReady().then(() => {
   createWindow();
 

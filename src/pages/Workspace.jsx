@@ -1,3 +1,4 @@
+import Sidebar from "../components/Sidebar";
 export default function Workspace() {
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
@@ -12,21 +13,7 @@ export default function Workspace() {
 
       <div className="flex h-[calc(100vh-64px)]">
 
-        <aside className="w-72 bg-white border-r border-gray-200 p-6">
-
-          <button className="w-full mb-4 rounded-xl bg-[#0F5FDB] py-3 text-white font-semibold">
-            📂 Input Folder
-          </button>
-
-          <button className="w-full mb-4 rounded-xl bg-[#0F5FDB] py-3 text-white font-semibold">
-            📁 Output Folder
-          </button>
-
-          <button className="w-full rounded-xl bg-green-600 py-3 text-white font-semibold">
-            ▶ Start Conversion
-          </button>
-
-        </aside>
+        <Sidebar />
 
         <main className="flex-1 flex items-center justify-center">
 
