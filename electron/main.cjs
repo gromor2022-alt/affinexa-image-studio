@@ -1,10 +1,12 @@
 console.log("Main process started");
+
 const {
   app,
   BrowserWindow,
   dialog,
   ipcMain,
 } = require("electron");
+
 const path = require("path");
 
 function createWindow() {
@@ -21,17 +23,34 @@ function createWindow() {
     backgroundColor: "#0F172A",
 
     webPreferences: {
-  preload: path.join(__dirname, "preload.cjs"),
-  nodeIntegration: false,
-  contextIsolation: true,
-},
+      preload: path.join(__dirname, "preload.cjs"),
+      nodeIntegration: false,
+      contextIsolation: true,
+    },
   });
 
   win.loadURL("http://localhost:5173");
-console.log("Preload path:", path.join(__dirname, "preload.cjs"));
+
+  console.log(
+    "Preload path:",
+    path.join(__dirname, "preload.cjs")
+  );
 }
-console.log("Registering IPC handler...");
+
+console.log("Registering IPC handlers...");
+
 ipcMain.handle("select-input-folder", async () => {
+  const result = await dialog.showOpenDialog({
+    properties: ["openDirectory"],
+  });
+
+  if (result.canceled) {
+    return null;
+  }
+
+  return result.filePaths[0];
+});
+
 ipcMain.handle("select-output-folder", async () => {
   const result = await dialog.showOpenDialog({
     properties: ["openDirectory"],
@@ -43,16 +62,7 @@ ipcMain.handle("select-output-folder", async () => {
 
   return result.filePaths[0];
 });
-  const result = await dialog.showOpenDialog({
-    properties: ["openDirectory"],
-  });
 
-  if (result.canceled) {
-    return null;
-  }
-
-  return result.filePaths[0];
-});
 app.whenReady().then(() => {
   createWindow();
 
