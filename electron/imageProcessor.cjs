@@ -40,6 +40,7 @@ function getAllImages(folder) {
 }
 
 async function processFolder(options) {
+console.log("🚀 processFolder() started");
 
   const {
     inputFolder,
